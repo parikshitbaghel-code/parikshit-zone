@@ -1,0 +1,63 @@
+/* ZONE — layered sci-fi background + HUD overlay */
+
+/* layer 1: WebGL shader */
+#bgfx { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 0; display: block; pointer-events: none; image-rendering: auto; }
+/* layer 2: network canvas (core.js) sits above the shader */
+#bg { z-index: 0; opacity: 1 !important; }
+/* the shader draws its own grid floor; keep the CSS one only as a no-WebGL fallback */
+.grid-floor { display: none; }
+.no-gl #bgfx { display: none; }
+.no-gl .grid-floor { display: block; }
+.vignette { z-index: 1; background: radial-gradient(ellipse at center, transparent 60%, rgba(0, 0, 0, 0.45)); }
+
+/* glassy surfaces so the background reads through */
+.panel, .card, .pcard, .dcard, .kpi, .stat, .uc, .feat, .pr, .std, .sm-col, .pn, .tl-i, .cmp-wrap {
+  backdrop-filter: blur(10px) saturate(130%);
+  -webkit-backdrop-filter: blur(10px) saturate(130%);
+}
+
+/* layer 3: HUD */
+.hud { position: fixed; inset: 0; z-index: 1; pointer-events: none; font: 500 10.5px var(--mono); letter-spacing: 1.6px; color: rgba(148, 163, 184, 0.6); text-transform: uppercase; }
+.hud-c { position: absolute; display: flex; align-items: center; gap: 10px; }
+.hud-c i { width: 20px; height: 20px; border: 1.5px solid rgba(45, 225, 180, 0.55); flex: none; }
+.hud-c b { color: rgba(45, 225, 180, 0.9); font-weight: 600; }
+.hud-c.h-tl { top: calc(var(--nav-h) + 14px); left: 14px; }
+.hud-c.h-tl i { border-right: 0; border-bottom: 0; }
+.hud-c.h-tr { top: calc(var(--nav-h) + 14px); right: 14px; flex-direction: row-reverse; }
+.hud-c.h-tr i { border-left: 0; border-bottom: 0; }
+.hud-c.h-bl { bottom: 14px; left: 14px; }
+.hud-c.h-bl i { border-right: 0; border-top: 0; }
+.hud-c.h-br { bottom: 14px; right: 14px; flex-direction: row-reverse; }
+.hud-c.h-br i { border-left: 0; border-top: 0; }
+.hud-c span { padding: 3px 8px; border-radius: 4px; background: rgba(5, 8, 13, 0.55); border: 1px solid rgba(148, 163, 184, 0.12); }
+.sig { display: inline-flex; align-items: flex-end; gap: 2px; height: 10px; margin: 0 4px; vertical-align: -1px; }
+.sig em { width: 3px; background: rgba(45, 225, 180, 0.85); animation: sigBar 1.8s ease-in-out infinite; }
+.sig em:nth-child(1) { height: 30%; } .sig em:nth-child(2) { height: 50%; animation-delay: .15s; } .sig em:nth-child(3) { height: 70%; animation-delay: .3s; }
+.sig em:nth-child(4) { height: 85%; animation-delay: .45s; } .sig em:nth-child(5) { height: 100%; animation-delay: .6s; opacity: .45; }
+@keyframes sigBar { 50% { opacity: .35; } }
+
+.hud-rule { position: absolute; top: calc(var(--nav-h) + 60px); bottom: 60px; width: 10px;
+  background:
+    repeating-linear-gradient(to bottom, rgba(148, 163, 184, 0.45) 0 1px, transparent 1px 60px),
+    repeating-linear-gradient(to bottom, rgba(148, 163, 184, 0.22) 0 1px, transparent 1px 12px);
+  background-size: 10px 100%, 5px 100%; background-repeat: no-repeat;
+  -webkit-mask-image: linear-gradient(transparent, #000 15%, #000 85%, transparent); mask-image: linear-gradient(transparent, #000 15%, #000 85%, transparent); }
+.hud-rule.l { left: 4px; }
+.hud-rule.r { right: 4px; background-position: right top, right top; }
+
+.hud-sweep { position: absolute; left: 0; right: 0; height: 140px; top: -140px;
+  background: linear-gradient(to bottom, transparent, rgba(45, 225, 180, 0.035) 70%, rgba(45, 225, 180, 0.07));
+  border-bottom: 1px solid rgba(45, 225, 180, 0.14); animation: hudSweep 11s linear infinite; }
+@keyframes hudSweep { to { top: 100%; } }
+
+.hud-reticle { position: absolute; right: -80px; bottom: -80px; width: 300px; height: 300px; opacity: 0.32; }
+.hud-reticle circle, .hud-reticle path { fill: none; stroke: #2de1b4; transform-box: fill-box; transform-origin: center; }
+.hud-reticle .r1 { stroke-width: 1; stroke-dasharray: 2 6; animation: spin 50s linear infinite; }
+.hud-reticle .r2 { stroke: #7c8cff; stroke-width: 1.5; stroke-dasharray: 60 30 10 30; animation: spin 26s linear infinite reverse; }
+.hud-reticle .r3 { stroke-width: 1; opacity: .6; }
+.hud-reticle .r4 { stroke-width: 1; opacity: .7; }
+
+/* keep page content above the HUD */
+main, .site-foot { z-index: 2; }
+
+@media (max-width: 900px) { .hud { display: none; } }

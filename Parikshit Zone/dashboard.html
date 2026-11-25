@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Command Center · ZONE Security Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/apps.css" />
+  <link rel="stylesheet" href="css/demo.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/site.css" />
+  <link rel="stylesheet" href="css/bg.css" />
+</head>
+<body data-page="dashboard">
+  <main>
+    <div class="wrap">
+      <header class="page-head" style="padding-bottom:26px">
+        <div class="crumbs"><a href="index.html">Home</a><span>/</span>Command Center</div>
+        <p class="kicker">Live telemetry</p>
+        <h1>Security Command Center</h1>
+        <p class="lead">Real-time view across the perimeter — defence health, traffic, attack patterns and the intel feed in one place. Values are simulated for demonstration.</p>
+      </header>
+
+      <div class="dash-bar">
+        <div class="seg-ctl" id="range" role="tablist" aria-label="Time range">
+          <button data-r="1h" class="on">1 h</button><button data-r="24h">24 h</button><button data-r="7d">7 d</button><button data-r="30d">30 d</button>
+        </div>
+        <span class="status-chip"><i></i>All sensors reporting</span>
+        <span class="spacer"></span>
+        <button class="btn ghost" id="refresh" style="padding:9px 14px"><svg><use href="#i-radar"/></svg><span>Refresh</span></button>
+        <button class="btn primary" id="export" style="padding:9px 14px"><svg><use href="#i-book"/></svg><span>Export snapshot</span></button>
+      </div>
+
+      <div class="kpis" id="kpis"></div>
+
+      <div class="dash">
+        <div class="panel gauges">
+          <div class="panel-h"><svg><use href="#i-shield"/></svg> Defence integrity</div>
+          <div class="gauge-row">
+            <div class="gauge" data-v="98" data-label="FIREWALL"></div>
+            <div class="gauge" data-v="91" data-label="IDS / IPS"></div>
+            <div class="gauge" data-v="100" data-label="CRYPTO"></div>
+            <div class="gauge" data-v="86" data-label="PATCH"></div>
+          </div>
+          <dl class="sys-list">
+            <div><dt>Last full scan</dt><dd id="lastScan">—</dd></div>
+            <div><dt>Open incidents</dt><dd class="warn">2</dd></div>
+            <div><dt>Patches pending</dt><dd class="warn">5</dd></div>
+            <div><dt>Keys rotated</dt><dd class="ok">ALL</dd></div>
+          </dl>
+        </div>
+        <div class="panel traffic">
+          <div class="panel-h"><svg><use href="#i-net"/></svg> Network traffic <span class="legend"><i class="c"></i>Inbound <i class="m"></i>Outbound</span></div>
+          <canvas id="chart"></canvas>
+        </div>
+        <div class="panel heat">
+          <div class="panel-h"><svg><use href="#i-grid"/></svg> Attack heatmap · 7 days</div>
+          <div class="heatmap" id="heatmap"></div>
+          <div class="heat-x"><span>00h</span><span>06h</span><span>12h</span><span>18h</span><span>24h</span></div>
+        </div>
+        <div class="panel vectors">
+          <div class="panel-h"><svg><use href="#i-bug"/></svg> Attack vectors</div>
+          <ul class="vec" id="vectors"></ul>
+        </div>
+        <div class="panel hexmesh">
+          <div class="panel-h"><svg><use href="#i-globe"/></svg> Node mesh · 42</div>
+          <div class="hexes" id="hexes"></div>
+        </div>
+      </div>
+
+      <section class="ops2">
+        <div class="panel">
+          <div class="panel-h"><svg><use href="#i-target"/></svg> Top threat sources</div>
+          <table class="src-table" id="sources"></table>
+        </div>
+        <div class="panel feed">
+          <div class="panel-h"><svg><use href="#i-eye"/></svg> Live intel feed <span class="live">● LIVE</span></div>
+          <ul id="feedList"></ul>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/site.js"></script>
+  <script src="js/apps.js"></script>
+  <script src="js/snapshots.js"></script>
+  <script src="js/demo.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/bg.js"></script>
+  <script src="js/widgets.js"></script>
+  <script>
+    (() => {
+      const { $, $$, rand, w } = Z;
+      const traffic = w.traffic($("#chart"));
+      w.gauges(); w.heatmap($("#heatmap")); w.vectors($("#vectors")); w.hexes($("#hexes")); w.feed($("#feedList"));
+      $("#lastScan").textContent = new Date(Date.now() - 17 * 60000).toLocaleTimeString("en-GB");
+
+      const scale = { "1h": 1, "24h": 24, "7d": 168, "30d": 720 };
+      let range = "1h";
+      const kpi = () => {
+        const s = scale[range];
+        const rows = [
+          ["i-shield", "Threats blocked", Math.round(214 * s * (0.9 + Math.random() * 0.2)), "+12% vs prev.", "up"],
+          ["i-eye", "Events analysed", Math.round(1.1e6 * s * (0.9 + Math.random() * 0.2)), "+4% vs prev.", "up"],
+          ["i-bug", "Open findings", rand(18, 26), "−3 since yesterday", "up"],
+          ["i-radar", "Mean time to respond", (0.3 + Math.random() * 0.2).toFixed(1) + " min", "−8% vs prev.", "up"],
+        ];
+        $("#kpis").innerHTML = rows.map(([ic, l, v, d, dir]) => `<div class="kpi"><small>${Z.icon(ic)}${l}</small><b>${typeof v === "number" ? v.toLocaleString() : v}</b><em class="${dir}">${d}</em></div>`).join("");
+      };
+      const srcs = () => {
+        const list = [["185.220.101.0/24", "Credential stuffing", 4812], ["45.137.21.9", "Data exfiltration C2", 2140], ["103.75.190.12", "SQLi probing", 1209], ["92.118.39.0/24", "Port scanning", 988], ["198.51.100.77", "Phishing infrastructure", 431]];
+        const s = scale[range], max = list[0][2] * s;
+        $("#sources").innerHTML = `<tr><th>Source</th><th>Activity</th><th>Events</th><th>Share</th><th>Status</th></tr>` +
+          list.map(([ip, act, n]) => { const v = Math.round(n * s * (0.85 + Math.random() * 0.3)); return `<tr><td class="mono">${ip}</td><td>${act}</td><td class="mono">${v.toLocaleString()}</td><td><div class="bar-mini"><i style="width:${Math.min(100, (v / max) * 100)}%"></i></div></td><td><span class="sv sv-ok">BLOCKED</span></td></tr>`; }).join("");
+      };
+      const refresh = () => { kpi(); srcs(); traffic.reseed(range === "1h" ? 1 : range === "24h" ? 1.4 : 1.8); };
+      refresh();
+      $("#range").addEventListener("click", (e) => { const b = e.target.closest("button"); if (!b) return; range = b.dataset.r; $$("#range button").forEach((x) => x.classList.toggle("on", x === b)); refresh(); Z.toast(`Showing last ${b.textContent.trim()}`); });
+      $("#refresh").onclick = () => { refresh(); Z.toast("Telemetry refreshed"); };
+      $("#export").onclick = () => {
+        const kp = $$(".kpi").map((k) => `"${k.querySelector("small").textContent.trim()}","${k.querySelector("b").textContent}"`);
+        const feed = $$("#feedList li").map((li) => `"${li.querySelector("time").textContent}","${li.querySelector("b").textContent}","${li.querySelector("span").textContent.replace(/"/g, "'")}"`);
+        const csv = `ZONE Command Center snapshot,${new Date().toISOString()},range ${range}\n\nMetric,Value\n${kp.join("\n")}\n\nTime,Severity,Event\n${feed.join("\n")}\n`;
+        const url = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
+        Object.assign(document.createElement("a"), { href: url, download: `zone-snapshot-${Date.now()}.csv` }).click();
+        setTimeout(() => URL.revokeObjectURL(url), 1000);
+        Z.toast("Snapshot exported as CSV");
+      };
+      setInterval(kpi, 8000);
+      Z.enhance();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Console · ZONE Security Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/apps.css" />
+  <link rel="stylesheet" href="css/demo.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/site.css" />
+  <link rel="stylesheet" href="css/bg.css" />
+</head>
+<body data-page="console">
+  <main>
+    <div class="wrap">
+      <header class="page-head" style="padding-bottom:26px">
+        <div class="crumbs"><a href="index.html">Home</a><span>/</span>Console</div>
+        <p class="kicker">Interactive shell</p>
+        <h1>Root console</h1>
+        <p class="lead">Drive the whole site from the keyboard — open products, play demos, and use a few real crypto utilities. Tab completes, ↑/↓ recalls history.</p>
+      </header>
+
+      <section class="con-grid">
+        <div class="panel term">
+          <div class="term-head"><i></i><i></i><i></i><span id="termTitle">root@zone — secure shell</span><span class="enc">⛨ E2E</span></div>
+          <div class="term-body" id="termOut"></div>
+          <form id="termForm" class="term-input" autocomplete="off">
+            <label for="termIn" id="prompt">user@zone:~$</label>
+            <input id="termIn" spellcheck="false" placeholder="type 'help'" autofocus />
+          </form>
+        </div>
+        <div class="side-stack">
+          <div class="panel">
+            <div class="panel-h"><svg><use href="#i-bolt"/></svg> Quick commands</div>
+            <div class="quick" id="quick"></div>
+          </div>
+          <div class="panel feed">
+            <div class="panel-h"><svg><use href="#i-eye"/></svg> Live intel <span class="live">● LIVE</span></div>
+            <ul id="feedList"></ul>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/site.js"></script>
+  <script src="js/apps.js"></script>
+  <script src="js/snapshots.js"></script>
+  <script src="js/demo.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/bg.js"></script>
+  <script src="js/widgets.js"></script>
+  <script>
+    (() => {
+      const { $, w } = Z;
+      const user = SITE.owner.toLowerCase();
+      $("#prompt").textContent = `${user}@zone:~$`;
+      $("#termTitle").textContent = `${user}@zone — secure shell`;
+      const term = w.terminal($("#termOut"), $("#termForm"), $("#termIn"));
+      w.feed($("#feedList"), 8);
+      const quick = [["help", "All commands"], ["ls", "List products"], ["status", "System health"], ["open logsense", "Go to a product"], ["demo apivapt", "Play a demo"], ["genpass 32", "Strong password"], ["hash hello", "SHA-256"], ["matrix", "Toggle data rain"]];
+      $("#quick").innerHTML = quick.map(([c, d]) => `<button data-c="${Z.esc(c)}"><span>$ ${Z.esc(c)}</span><small>${d}</small></button>`).join("");
+      $("#quick").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) { term.run(b.dataset.c); $("#termIn").focus(); } });
+      Z.enhance();
+    })();
+  </script>
+</body>
+</html>

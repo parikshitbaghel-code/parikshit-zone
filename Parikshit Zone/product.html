@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product · ZONE Security Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/apps.css" />
+  <link rel="stylesheet" href="css/demo.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/site.css" />
+  <link rel="stylesheet" href="css/bg.css" />
+</head>
+<body data-page="product">
+  <main id="pmain"></main>
+
+  <script src="js/site.js"></script>
+  <script src="js/apps.js"></script>
+  <script src="js/snapshots.js"></script>
+  <script src="js/demo.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/bg.js"></script>
+  <script>
+    (() => {
+      const { $, $$, esc } = Z;
+      const apps = Z.apps();
+      const id = Z.param("id");
+      const i = apps.findIndex((a) => a.id === id);
+      const main = $("#pmain");
+
+      if (i < 0) {
+        document.title = "Product not found · ZONE";
+        main.innerHTML = `<div class="wrap p-missing"><p class="kicker">404</p><h1 style="white-space:normal">Product not found</h1>
+          <p class="lead" style="margin:16px auto 30px;color:var(--dim)">There's no product called “${esc(id || "")}”. Pick one below.</p>
+          <div class="cta" style="justify-content:center">${apps.map((a) => `<a class="btn ghost" href="${Z.productUrl(a.id)}">${esc(a.name)}</a>`).join("")}</div></div>`;
+        return;
+      }
+
+      const a = apps[i], prev = apps[(i - 1 + apps.length) % apps.length], next = apps[(i + 1) % apps.length];
+      document.title = `${a.name} · ZONE Security Suite`;
+      const scenes = (window.ZONE_DEMOS || {})[a.id] || [];
+
+      main.innerHTML = `
+        <div class="p-hero" style="--accent:${a.color}">
+          <div class="wrap">
+            <div class="crumbs"><a href="index.html">Home</a><span>/</span><a href="products.html">Products</a><span>/</span>${esc(a.name)}</div>
+            <div class="p-hero-grid">
+              <div>
+                <span class="p-badge"><span class="mi-ic">${Z.icon(a.icon)}</span>${esc(Z.cat(a.id))} · <span class="pill ${a.status[0]}" style="padding:2px 8px">${esc(a.status[1])}</span></span>
+                <h1>${esc(a.name)}</h1>
+                <p class="tl">${esc(a.tagline)}</p>
+                <p class="sum">${esc(a.summary)}</p>
+                <div class="cta">
+                  <button class="btn primary" data-demo="${a.id}" style="background:${a.color}"><svg><use href="#i-play"/></svg><span>View demo</span></button>
+                  <a class="btn ghost" href="products.html#compare"><svg><use href="#i-layers"/></svg><span>Compare</span></a>
+                </div>
+                <div class="p-stats">${a.stats.map(([v, k]) => `<div><b>${esc(v)}</b><small>${esc(k)}</small></div>`).join("")}</div>
+              </div>
+              <div class="p-shot" style="--accent:${a.color}">${Z.snapshot(a)}<div class="snap-glow"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <nav class="subnav" aria-label="Product sections"><div class="wrap">
+          <a href="#features" class="on">Features</a><a href="#workflow">Workflow</a><a href="#usecases">Use cases</a><a href="#demo">Demo</a><a href="#more">More products</a>
+          <button class="go-demo sn-cta" data-demo="${a.id}" style="--accent:${a.color}">▶ View demo</button>
+        </div></nav>
+
+        <div class="wrap" style="--accent:${a.color}">
+          <section id="features">
+            <div class="sec-head"><div><p class="kicker" style="color:${a.color}">Capabilities</p><h2>What ${esc(a.name)} does</h2></div></div>
+            <div class="feat-grid">${a.features.map((f) => `<div class="feat reveal-me"><div class="fi">${Z.icon("i-check")}</div><p>${esc(f)}</p></div>`).join("")}</div>
+          </section>
+
+          <section id="workflow">
+            <div class="sec-head"><div><p class="kicker" style="color:${a.color}">Workflow</p><h2>From input to answer in ${a.workflow.length} steps</h2></div></div>
+            <div class="show" style="--accent:${a.color};animation:none"><div class="flow">${a.workflow.map((s, k) => `<div class="step" style="--k:${k}"><i>${String(k + 1).padStart(2, "0")}</i><span>${esc(s)}</span></div>`).join("")}</div></div>
+          </section>
+
+          <section id="usecases">
+            <div class="sec-head"><div><p class="kicker" style="color:${a.color}">Use cases</p><h2>Where it earns its keep</h2></div></div>
+            <div class="show" style="--accent:${a.color};animation:none">
+              <div class="uc-grid">${a.usecases.map(([t, d], k) => `<div class="uc reveal-me"><em>${String(k + 1).padStart(2, "0")}</em><b>${esc(t)}</b><p>${esc(d)}</p></div>`).join("")}</div>
+              <div class="aud"><span>${Z.icon("i-users")} BUILT FOR</span>${a.audience.map((x) => `<i>${esc(x)}</i>`).join("")}</div>
+            </div>
+          </section>
+
+          <section id="demo">
+            <div class="demo-poster reveal-me" style="--accent:${a.color}">
+              <div><p class="kicker" style="color:${a.color}">Interactive demo</p><h3>Watch ${esc(a.name)} in action</h3>
+                <p>A guided ${scenes.length}-step walkthrough — about ${scenes.length * 6} seconds. Pause, skip or replay any step.</p>
+                <ol>${scenes.map((s) => `<li>${esc(s.t)}</li>`).join("")}</ol></div>
+              <button class="play-big" data-demo="${a.id}" aria-label="Play ${esc(a.name)} demo">${Z.icon("i-play")}</button>
+            </div>
+          </section>
+
+          <section id="more">
+            <div class="sec-head"><div><p class="kicker">Keep exploring</p><h2>More from the suite</h2></div><a class="link-arrow" href="products.html">All products ${Z.icon("i-arrow")}</a></div>
+            <div class="pn-nav">
+              <a class="pn" href="${Z.productUrl(prev.id)}" style="--accent:${prev.color}">${Z.icon("i-back")}<span class="mi-ic">${Z.icon(prev.icon)}</span><span><small>Previous</small><b>${esc(prev.name)}</b></span></a>
+              <a class="pn next" href="${Z.productUrl(next.id)}" style="--accent:${next.color}"><span><small>Next</small><b>${esc(next.name)}</b></span><span class="mi-ic">${Z.icon(next.icon)}</span>${Z.icon("i-arrow")}</a>
+            </div>
+          </section>
+        </div>`;
+
+      Z.activateShots(main);
+      Z.enhance(main);
+
+      // highlight sub-nav on scroll
+      const links = $$(".subnav a[href^='#']");
+      const io = new IntersectionObserver((ents) => ents.forEach((en) => {
+        if (en.isIntersecting) links.forEach((l) => l.classList.toggle("on", l.getAttribute("href") === "#" + en.target.id));
+      }), { rootMargin: "-40% 0px -55% 0px" });
+      ["features", "workflow", "usecases", "demo", "more"].forEach((s) => io.observe(document.getElementById(s)));
+    })();
+  </script>
+</body>
+</html>

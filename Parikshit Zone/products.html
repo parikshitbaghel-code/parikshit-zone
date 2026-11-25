@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Products · ZONE Security Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/apps.css" />
+  <link rel="stylesheet" href="css/demo.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/site.css" />
+  <link rel="stylesheet" href="css/bg.css" />
+</head>
+<body data-page="products">
+  <main>
+    <div class="wrap">
+      <header class="page-head">
+        <div class="crumbs"><a href="index.html">Home</a><span>/</span>Products</div>
+        <p class="kicker">ZONE Security Suite</p>
+        <h1>Products</h1>
+        <p class="lead">Six focused tools that cover detection, phishing defence and offensive testing. Filter by what you need, or compare them side by side.</p>
+      </header>
+
+      <section>
+        <div class="filters" role="toolbar" aria-label="Filter products">
+          <div id="chips" style="display:contents"></div>
+          <label class="fsearch"><svg><use href="#i-search"/></svg><input id="q" placeholder="Search products, features…" aria-label="Search products" /></label>
+        </div>
+        <div class="pgrid" id="pgrid"></div>
+      </section>
+
+      <section id="compare">
+        <div class="sec-head"><div><p class="kicker">Compare</p><h2>Capabilities at a glance</h2><p>What each product brings to the table. Click a product to see the full detail.</p></div></div>
+        <div class="cmp-wrap reveal-me"><table class="cmp" id="cmp"></table></div>
+        <p class="cmp-note">Capability matrix is maintained in <code>js/site.js</code>.</p>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/site.js"></script>
+  <script src="js/apps.js"></script>
+  <script src="js/snapshots.js"></script>
+  <script src="js/demo.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/bg.js"></script>
+  <script>
+    (() => {
+      const { $, $$, esc } = Z;
+      const apps = Z.apps();
+      const cats = ["All", ...new Set(apps.map((a) => Z.cat(a.id)))];
+      let cat = "All", q = "";
+
+      $("#chips").innerHTML = cats.map((c) => `<button class="fchip ${c === cat ? "on" : ""}" data-c="${esc(c)}">${esc(c)}<em>${c === "All" ? apps.length : apps.filter((a) => Z.cat(a.id) === c).length}</em></button>`).join("");
+
+      const card = (a) => `
+        <article class="pcard reveal-me" style="--accent:${a.color}">
+          <div class="pc-shot">${Z.snapshot(a)}</div>
+          <div class="pc-body">
+            <div class="pc-top"><span class="mi-ic">${Z.icon(a.icon)}</span><div><small>${esc(Z.cat(a.id))}</small><h3><a href="${Z.productUrl(a.id)}">${esc(a.name)}</a></h3></div></div>
+            <p>${esc(a.tagline)} ${esc(a.summary.split(".")[0])}.</p>
+            <div class="chips">${a.chips.map((c) => `<span>${esc(c)}</span>`).join("")}</div>
+            <div class="pc-foot"><a class="link-arrow" href="${Z.productUrl(a.id)}">View product ${Z.icon("i-arrow")}</a><button class="go-demo" data-demo="${a.id}">▶ Demo</button></div>
+          </div>
+        </article>`;
+
+      const render = () => {
+        const s = q.toLowerCase();
+        const list = apps.filter((a) => (cat === "All" || Z.cat(a.id) === cat) &&
+          (!s || [a.name, a.tagline, a.summary, ...a.features, ...a.chips, a.tag].join(" ").toLowerCase().includes(s)));
+        $("#pgrid").innerHTML = list.map(card).join("") || `<div class="empty-state">No products match “${esc(q)}”.</div>`;
+        Z.activateShots($("#pgrid"));
+        Z.enhance($("#pgrid"));
+      };
+      $("#chips").addEventListener("click", (e) => {
+        const b = e.target.closest(".fchip"); if (!b) return;
+        cat = b.dataset.c; $$(".fchip").forEach((x) => x.classList.toggle("on", x === b)); render();
+      });
+      $("#q").addEventListener("input", (e) => { q = e.target.value; render(); });
+      render();
+
+      // comparison matrix
+      $("#cmp").innerHTML = `
+        <thead><tr><th>Capability</th>${apps.map((a) => `<th style="--accent:${a.color}"><a href="${Z.productUrl(a.id)}"><span class="mi-ic">${Z.icon(a.icon)}</span>${esc(a.name)}</a></th>`).join("")}</tr></thead>
+        <tbody>${SITE.compare.map(([label, ids]) => `<tr><td>${esc(label)}</td>${apps.map((a) => `<td style="--accent:${a.color}">${ids.includes(a.id) ? `<span class="yes" title="${esc(a.name)}: ${esc(label)}">${Z.icon("i-check")}</span>` : '<span class="no">—</span>'}</td>`).join("")}</tr>`).join("")}
+          <tr><td>Category</td>${apps.map((a) => `<td style="font-size:12.5px;color:var(--dim)">${esc(Z.cat(a.id))}</td>`).join("")}</tr>
+        </tbody>`;
+      Z.enhance();
+    })();
+  </script>
+</body>
+</html>

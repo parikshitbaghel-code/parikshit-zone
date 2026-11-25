@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parikshit · ZONE Security Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="apps.css" />
+  <link rel="stylesheet" href="demo.css" />
+  <link rel="stylesheet" href="theme.css" />
+</head>
+<body>
+  <!-- SVG icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="gradCM" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#2de1b4" /><stop offset="1" stop-color="#7c8cff" />
+      </linearGradient>
+      <filter id="glow"><feGaussianBlur stdDeviation="2.2" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+    </defs>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-radar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><path d="M12 12 19 5"/><circle cx="12" cy="12" r="1"/></symbol>
+    <symbol id="i-bug" viewBox="0 0 24 24"><rect x="7" y="7" width="10" height="13" rx="5"/><path d="M12 7V4M9 4l1.5 3M15 4l-1.5 3M3 12h4M17 12h4M4 7l3 2M20 7l-3 2M4 18l3-2M20 18l-3-2M12 11v9"/></symbol>
+    <symbol id="i-key" viewBox="0 0 24 24"><circle cx="8" cy="15" r="4"/><path d="m11 12 9-9M17 6l3 3M14 9l2 2"/></symbol>
+    <symbol id="i-net" viewBox="0 0 24 24"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="19" r="2.5"/><circle cx="19" cy="19" r="2.5"/><path d="M12 7.5v4M12 11.5 6.5 17M12 11.5l5.5 5.5M7.5 19h9"/></symbol>
+    <symbol id="i-logs" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
+    <symbol id="i-vault" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="12" cy="12" r="4"/><path d="M12 8v1.5M12 14.5V16M8 12h1.5M14.5 12H16M3 9h-1M3 15h-1"/></symbol>
+    <symbol id="i-term" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m7 9 3 3-3 3M12 15h5"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></symbol>
+    <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></symbol>
+    <symbol id="i-cog" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-traffic" viewBox="0 0 24 24"><path d="M2 12h4l3-8 4 16 3-8h6"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/><path d="M16 17l2 2 4-4" /></symbol>
+    <symbol id="i-android" viewBox="0 0 24 24"><rect x="5" y="9" width="14" height="10" rx="2"/><path d="M5 9a7 7 0 0 1 14 0M8 4 9.5 6.5M16 4l-1.5 2.5"/><circle cx="9.5" cy="12.5" r=".6"/><circle cx="14.5" cy="12.5" r=".6"/></symbol>
+    <symbol id="i-api" viewBox="0 0 24 24"><path d="M8 6 3 12l5 6M16 6l5 6-5 6M14 4l-4 16"/></symbol>
+    <symbol id="i-code" viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M10 13l-2 2 2 2M14 13l2 2-2 2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4 10-10"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4 10 14M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h14v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M8 7h8"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.9 3.1-6 7-6s7 2.1 7 6M16 4.5a3.5 3.5 0 0 1 0 7M22 20c0-3-1.8-5-4.5-5.7"/></symbol>
+  </svg>
+
+  <canvas id="bg"></canvas>
+  <div class="grid-floor"></div>
+  <div class="scanlines"></div>
+  <div class="vignette"></div>
+  <div id="cursor"><i></i></div>
+
+  <!-- ===== Boot ===== -->
+  <div id="boot">
+    <div class="boot-inner">
+      <svg class="boot-logo" viewBox="0 0 120 120">
+        <polygon class="hex-a" points="60,6 107,33 107,87 60,114 13,87 13,33" />
+        <polygon class="hex-b" points="60,22 93,41 93,79 60,98 27,79 27,41" />
+        <path class="z" d="M42 44 H78 L42 76 H78" />
+      </svg>
+      <pre id="bootLog"></pre>
+      <div class="boot-bar"><i id="bootBar"></i></div>
+      <div class="boot-pct"><span id="bootPct">0</span>%</div>
+    </div>
+  </div>
+
+  <!-- ===== Side rail ===== -->
+  <aside class="rail">
+    <a href="#top" class="on" title="Command"><svg><use href="#i-grid"/></svg></a>
+    <a href="#dash" title="Telemetry"><svg><use href="#i-radar"/></svg></a>
+    <a href="#modules" title="Applications"><svg><use href="#i-bolt"/></svg></a>
+    <a href="#showcase" title="Showcase"><svg><use href="#i-book"/></svg></a>
+    <a href="#ops" title="Intel"><svg><use href="#i-eye"/></svg></a>
+    <a href="#terminal" title="Console"><svg><use href="#i-term"/></svg></a>
+    <span class="rail-sep"></span>
+    <a href="#" title="Settings"><svg><use href="#i-cog"/></svg></a>
+  </aside>
+
+  <!-- ===== Top bar ===== -->
+  <header class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 40 40" class="logo" aria-hidden="true">
+        <polygon points="20,2 37,11 37,29 20,38 3,29 3,11" />
+        <path d="M13 14 H27 L13 26 H27" />
+      </svg>
+      <div><b>ZONE</b><small>CYBER COMMAND // v5.0</small></div>
+    </div>
+    <div class="top-mid">
+      <div class="seg"><small>NODE</small><b>ZN-ALPHA-01</b></div>
+      <div class="seg"><small>REGION</small><b>AP-SOUTH</b></div>
+      <div class="seg"><small>ENCRYPTION</small><b>AES-256-GCM</b></div>
+      <div class="seg"><small>DEFCON</small><b class="defcon" id="defcon">4</b></div>
+    </div>
+    <div class="status">
+      <span class="dot"></span><span>SECURE LINK</span>
+      <span class="clock" id="clock">--:--:--</span>
+      <div class="avatar" title="Operator">P</div>
+    </div>
+  </header>
+
+  <!-- ===== Ticker ===== -->
+  <div class="ticker"><div class="ticker-track" id="ticker"></div></div>
+
+  <main id="top">
+    <!-- ===== Hero ===== -->
+    <section class="hero">
+      <div class="hero-left">
+        <p class="eyebrow"><span class="blink">●</span> All systems operational · 6 products live</p>
+        <h1>Parikshit<span class="dot">.</span></h1>
+        <h2 class="hero-sub">Security engineering &amp; the <em>ZONE</em> suite — six tools for network, logs, phishing, mobile, API and code security.</h2>
+        <p class="sub"><span id="typeline"></span><span class="caret">▋</span></p>
+        <div class="cta">
+          <a href="#modules" class="btn primary"><svg><use href="#i-bolt"/></svg><span>MY APPLICATIONS</span></a>
+          <a href="#terminal" class="btn ghost"><svg><use href="#i-term"/></svg><span>ROOT CONSOLE</span></a>
+        </div>
+        <div class="stats">
+          <div class="stat"><b data-count="1284">0</b><small>Threats Neutralized</small><svg class="spark" viewBox="0 0 100 24"><polyline points="0,20 15,16 30,18 45,9 60,12 75,5 100,8"/></svg></div>
+          <div class="stat"><b data-count="99.97" data-dec="2">0</b><small>Uptime %</small><svg class="spark" viewBox="0 0 100 24"><polyline points="0,6 20,5 40,6 60,4 80,5 100,4"/></svg></div>
+          <div class="stat"><b data-count="42">0</b><small>Nodes Online</small><svg class="spark" viewBox="0 0 100 24"><polyline points="0,18 20,14 40,15 60,10 80,8 100,6"/></svg></div>
+          <div class="stat"><b data-count="0.3" data-dec="1">0</b><small>Avg MTTR (min)</small><svg class="spark" viewBox="0 0 100 24"><polyline points="0,4 20,8 40,7 60,12 80,16 100,19"/></svg></div>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="globe-frame">
+          <svg class="orbits" viewBox="0 0 500 500" aria-hidden="true">
+            <circle class="o1" cx="250" cy="250" r="238" />
+            <circle class="o2" cx="250" cy="250" r="222" />
+            <g class="ticks"></g>
+            <circle class="o3" cx="250" cy="250" r="205" />
+            <path class="arc-hud a1" d="M250 12 A238 238 0 0 1 488 250" />
+            <path class="arc-hud a2" d="M250 488 A238 238 0 0 1 12 250" />
+          </svg>
+          <canvas id="globe"></canvas>
+          <div class="hud-tag t1"><small>INBOUND</small><b id="inb">0</b> req/s</div>
+          <div class="hud-tag t2"><small>BLOCKED</small><b id="blk">0</b></div>
+          <div class="hud-tag t3"><small>ACTIVE ARCS</small><b id="arcs">0</b></div>
+          <div class="hud-tag t4"><small>THREAT</small><b id="threat">LOW</b></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Dashboard ===== -->
+    <section id="dash">
+      <h2 class="section-title"><span>01</span> SYSTEM TELEMETRY</h2>
+      <div class="dash">
+        <div class="panel gauges">
+          <div class="panel-h"><svg><use href="#i-shield"/></svg> DEFENSE INTEGRITY</div>
+          <div class="gauge-row">
+            <div class="gauge" data-v="98" data-label="FIREWALL"></div>
+            <div class="gauge" data-v="91" data-label="IDS / IPS"></div>
+            <div class="gauge" data-v="100" data-label="CRYPTO"></div>
+            <div class="gauge" data-v="86" data-label="PATCH"></div>
+          </div>
+          <dl class="sys-list">
+            <div><dt>Last full scan</dt><dd id="lastScan">00:00:00</dd></div>
+            <div><dt>Open incidents</dt><dd class="warn">2</dd></div>
+            <div><dt>Patches pending</dt><dd class="warn">5</dd></div>
+            <div><dt>Keys rotated</dt><dd class="ok">ALL</dd></div>
+          </dl>
+        </div>
+
+        <div class="panel traffic">
+          <div class="panel-h"><svg><use href="#i-net"/></svg> NETWORK TRAFFIC
+            <span class="legend"><i class="c"></i>Inbound <i class="m"></i>Outbound</span>
+          </div>
+          <canvas id="chart"></canvas>
+        </div>
+
+        <div class="panel heat">
+          <div class="panel-h"><svg><use href="#i-grid"/></svg> ATTACK HEATMAP · 7D</div>
+          <div class="heatmap" id="heatmap"></div>
+          <div class="heat-x"><span>00h</span><span>06h</span><span>12h</span><span>18h</span><span>24h</span></div>
+        </div>
+
+        <div class="panel vectors">
+          <div class="panel-h"><svg><use href="#i-bug"/></svg> ATTACK VECTORS</div>
+          <ul class="vec" id="vectors"></ul>
+        </div>
+
+        <div class="panel hexmesh">
+          <div class="panel-h"><svg><use href="#i-globe"/></svg> NODE MESH</div>
+          <div class="hexes" id="hexes"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Applications ===== -->
+    <section id="modules">
+      <h2 class="section-title"><span>02</span> MY APPLICATIONS <small class="st-sub">6 tools · built by Parikshit</small></h2>
+      <div class="grid" id="appGrid"></div>
+    </section>
+
+    <!-- ===== Product showcase ===== -->
+    <section id="showcase">
+      <h2 class="section-title"><span>03</span> PRODUCT SHOWCASE</h2>
+      <div class="tabs" id="appTabs" role="tablist"></div>
+      <div id="appShow"></div>
+    </section>
+
+    <!-- ===== Ops: feed + terminal ===== -->
+    <section id="ops" class="split">
+      <div class="panel feed">
+        <div class="panel-h"><svg><use href="#i-eye"/></svg> LIVE INTEL FEED <span class="live">● LIVE</span></div>
+        <ul id="feedList"></ul>
+      </div>
+
+      <div id="terminal" class="panel term">
+        <div class="term-head"><i></i><i></i><i></i><span>root@zone — secure shell</span><span class="enc">⛨ E2E</span></div>
+        <div class="term-body" id="termOut"></div>
+        <form id="termForm" class="term-input" autocomplete="off">
+          <label for="termIn">parikshit@zone:~$</label>
+          <input id="termIn" spellcheck="false" placeholder="type 'help'" />
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>ZONE // PRIVATE OPERATOR TERMINAL</span>
+    <span class="foot-mid">AES-256-GCM · TLS 1.3 · ZERO TRUST</span>
+    <span id="lat">LAT 0ms</span>
+  </footer>
+
+  <script src="apps.js"></script>
+  <script src="snapshots.js"></script>
+  <script src="demo.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

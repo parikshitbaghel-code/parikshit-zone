@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About · ZONE Security Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/apps.css" />
+  <link rel="stylesheet" href="css/demo.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/site.css" />
+  <link rel="stylesheet" href="css/bg.css" />
+</head>
+<body data-page="about">
+  <main>
+    <div class="wrap">
+      <header class="page-head about-hero">
+        <div>
+          <div class="crumbs"><a href="index.html">Home</a><span>/</span>About</div>
+          <p class="kicker">About</p>
+          <h1 id="aboutTitle">Built by Parikshit.</h1>
+          <!-- Edit this paragraph to tell your own story. -->
+          <p class="lead">I design and build security tools. ZONE is my suite of six products — each one made to answer a single hard question well: what is happening on the network, what the logs are really saying, whether a link is safe to open, and whether a mobile app, an API or a codebase can be broken before it ships.</p>
+          <div class="cta" style="margin-top:28px"><a class="btn primary" href="products.html"><svg><use href="#i-grid"/></svg><span>See the products</span></a><a class="btn ghost" href="demos.html"><svg><use href="#i-play"/></svg><span>Watch demos</span></a></div>
+        </div>
+        <div class="id-card reveal-me">
+          <div class="id-top"><div class="id-av" id="idAv">P</div><div><b id="idName">Parikshit</b><small>Creator · ZONE Security Suite</small></div></div>
+          <dl class="id-rows" id="idRows"></dl>
+          <div id="idContact"></div>
+        </div>
+      </header>
+
+      <section id="principles">
+        <div class="sec-head"><div><p class="kicker">Principles</p><h2>How the tools are built</h2></div></div>
+        <div class="principles">
+          <div class="pr reveal-me"><div class="pi"><svg><use href="#i-lock"/></svg></div><h4>Local by default</h4><p>Sensitive data stays on your machine. Analysis runs where the evidence lives — nothing is shipped off to a third party to be judged.</p></div>
+          <div class="pr reveal-me"><div class="pi"><svg><use href="#i-target"/></svg></div><h4>Evidence over noise</h4><p>Findings are verified before they count — replayed, baselined and backed with the exact request, packet or line of code.</p></div>
+          <div class="pr reveal-me"><div class="pi"><svg><use href="#i-eye"/></svg></div><h4>Plain-language results</h4><p>Every verdict explains itself. You get the why and the fix, not just a severity label and a CVE number.</p></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="sec-head"><div><p class="kicker">The lineup</p><h2>Six products, one suite</h2></div><a class="link-arrow" href="products.html#compare">Compare them <svg><use href="#i-arrow"/></svg></a></div>
+        <div class="timeline" id="lineup"></div>
+      </section>
+
+      <section id="standards">
+        <div class="sec-head"><div><p class="kicker">Standards</p><h2>Frameworks the suite maps to</h2><p>Findings line up with the industry frameworks security teams already use, so results drop straight into existing reports and processes.</p></div></div>
+        <div class="std-strip" id="stdStrip"></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/site.js"></script>
+  <script src="js/apps.js"></script>
+  <script src="js/snapshots.js"></script>
+  <script src="js/demo.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/bg.js"></script>
+  <script>
+    (() => {
+      const { $, esc } = Z, S = SITE, apps = Z.apps();
+      $("#aboutTitle").textContent = `Built by ${S.owner}.`;
+      $("#idName").textContent = S.owner; $("#idAv").textContent = S.owner[0];
+      $("#idRows").innerHTML = [["Suite", `${S.brand} Security Suite`], ["Products", `${apps.length} live`], ["Focus", "Detection · Phishing defence · VAPT"], ["Frameworks", "OWASP · CWE · ATT&CK"], ["Status", "● Operational"]]
+        .map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("");
+      const c = S.contact, links = [c.email && `<a class="btn ghost" href="mailto:${esc(c.email)}">${Z.icon("i-mailto")}<span>Email</span></a>`, c.github && `<a class="btn ghost" href="${esc(c.github)}" target="_blank" rel="noopener">${Z.icon("i-git")}<span>GitHub</span></a>`, c.linkedin && `<a class="btn ghost" href="${esc(c.linkedin)}" target="_blank" rel="noopener">${Z.icon("i-link")}<span>LinkedIn</span></a>`].filter(Boolean);
+      $("#idContact").innerHTML = links.length ? `<div class="cta" style="margin-top:18px">${links.join("")}</div>` : `<p class="contact-empty">Add contact links in <code>js/site.js</code> to show them here.</p>`;
+      $("#lineup").innerHTML = apps.map((a) => `<a class="tl-i reveal-me" href="${Z.productUrl(a.id)}" style="--accent:${a.color}"><b>${esc(a.name)}</b> <span class="pill ${a.status[0]}" style="margin-left:8px">${esc(Z.cat(a.id))}</span><p>${esc(a.tagline)} ${esc(a.summary.split(".")[0])}.</p></a>`).join("");
+      $("#stdStrip").innerHTML = S.standards.map(([n, d]) => `<div class="std reveal-me"><b>${esc(n)}</b><small>${esc(d)}</small></div>`).join("");
+      Z.enhance();
+    })();
+  </script>
+</body>
+</html>

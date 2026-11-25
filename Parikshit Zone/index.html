@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Parikshit — security engineering and the ZONE suite of six security products." />
+  <title>Parikshit · ZONE Security Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/apps.css" />
+  <link rel="stylesheet" href="css/demo.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/site.css" />
+  <link rel="stylesheet" href="css/bg.css" />
+</head>
+<body data-page="home">
+  <main>
+    <div class="wrap">
+      <section class="hero">
+        <div class="hero-left">
+          <p class="eyebrow"><span class="blink">●</span> All systems operational · 6 products live</p>
+          <h1>Parikshit<span class="hdot">.</span></h1>
+          <h2 class="hero-sub">Security engineering &amp; the <em>ZONE</em> suite — six tools for network, logs, phishing, mobile, API and code security.</h2>
+          <p class="sub"><span id="typeline"></span><span class="caret">▋</span></p>
+          <div class="cta">
+            <a href="products.html" class="btn primary"><svg><use href="#i-grid"/></svg><span>Explore products</span></a>
+            <a href="dashboard.html" class="btn ghost"><svg><use href="#i-radar"/></svg><span>Command Center</span></a>
+            <a href="demos.html" class="btn ghost"><svg><use href="#i-play"/></svg><span>Watch demos</span></a>
+          </div>
+          <div class="stats">
+            <div class="stat"><b data-count="6">0</b><small>Security products</small><svg class="spark" viewBox="0 0 100 24"><polyline points="0,20 20,16 40,14 60,9 80,6 100,4"/></svg></div>
+            <div class="stat"><b data-count="489">0</b><small>Code review rules</small><svg class="spark" viewBox="0 0 100 24"><polyline points="0,18 20,15 40,12 60,10 80,7 100,5"/></svg></div>
+            <div class="stat"><b data-count="215">0</b><small>Mobile weakness classes</small><svg class="spark" viewBox="0 0 100 24"><polyline points="0,19 20,17 40,12 60,11 80,8 100,6"/></svg></div>
+            <div class="stat"><b data-count="10">0</b><small>OWASP API risks tested</small><svg class="spark" viewBox="0 0 100 24"><polyline points="0,14 20,12 40,13 60,8 80,7 100,5"/></svg></div>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="globe-frame">
+            <svg class="orbits" viewBox="0 0 500 500" aria-hidden="true">
+              <circle class="o1" cx="250" cy="250" r="238" /><circle class="o2" cx="250" cy="250" r="222" />
+              <g class="ticks"></g><circle class="o3" cx="250" cy="250" r="205" />
+              <path class="arc-hud a1" d="M250 12 A238 238 0 0 1 488 250" /><path class="arc-hud a2" d="M250 488 A238 238 0 0 1 12 250" />
+            </svg>
+            <canvas id="globe"></canvas>
+            <div class="hud-tag t1"><small>INBOUND</small><b id="inb">0</b> req/s</div>
+            <div class="hud-tag t2"><small>BLOCKED</small><b id="blk">0</b></div>
+            <div class="hud-tag t3"><small>ACTIVE ARCS</small><b id="arcs">0</b></div>
+            <div class="hud-tag t4"><small>THREAT</small><b id="threat">LOW</b></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="ticker"><div class="ticker-track" id="ticker"></div></div>
+
+    <div class="wrap" style="margin-top:90px">
+
+      <section>
+        <div class="sec-head">
+          <div><p class="kicker">The suite</p><h2>Six products. One security workflow.</h2><p>Each tool is built for one job and built to go deep — from packets and logs to phishing links, mobile builds, APIs and source code.</p></div>
+          <a class="link-arrow" href="products.html">All products <svg><use href="#i-arrow"/></svg></a>
+        </div>
+        <div class="grid" id="homeGrid"></div>
+      </section>
+
+      <section>
+        <div class="sec-head">
+          <div><p class="kicker">How it fits together</p><h2>Detect. Prevent. Break it first.</h2><p>The suite covers the full loop — watching what happens, stopping what's coming in, and testing what you ship before attackers do.</p></div>
+        </div>
+        <div class="suite-map" id="suiteMap"></div>
+      </section>
+
+      <section>
+        <div class="sec-head"><div><p class="kicker">Principles</p><h2>Built the way security tools should be.</h2></div></div>
+        <div class="principles">
+          <div class="pr reveal-me"><div class="pi"><svg><use href="#i-lock"/></svg></div><h4>Local by default</h4><p>Sensitive data stays on your machine. Analysis runs where the evidence lives — nothing is shipped off to a third party to be judged.</p></div>
+          <div class="pr reveal-me"><div class="pi"><svg><use href="#i-target"/></svg></div><h4>Evidence over noise</h4><p>Findings are verified before they count — replayed, baselined and backed with the exact request, packet or line of code.</p></div>
+          <div class="pr reveal-me"><div class="pi"><svg><use href="#i-eye"/></svg></div><h4>Plain-language results</h4><p>Every verdict explains itself. You get the why and the fix, not just a severity label and a CVE number.</p></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="sec-head"><div><p class="kicker">Standards</p><h2>Mapped to the frameworks that matter.</h2></div><a class="link-arrow" href="about.html#standards">Learn more <svg><use href="#i-arrow"/></svg></a></div>
+        <div class="std-strip" id="stdStrip"></div>
+      </section>
+
+      <section>
+        <div class="cta-band reveal-me">
+          <div><h3>See it running — live.</h3><p>Open the Command Center for real-time telemetry, or watch a guided 30-second demo of any product.</p></div>
+          <div class="cta"><a class="btn primary" href="dashboard.html"><svg><use href="#i-radar"/></svg><span>Open Command Center</span></a><a class="btn ghost" href="demos.html"><svg><use href="#i-play"/></svg><span>Product demos</span></a></div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/site.js"></script>
+  <script src="js/apps.js"></script>
+  <script src="js/snapshots.js"></script>
+  <script src="js/demo.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/bg.js"></script>
+  <script src="js/widgets.js"></script>
+  <script>
+    (() => {
+      const { $, w } = Z;
+      const apps = Z.apps();
+      $("#homeGrid").innerHTML = apps.map(Z.productCard).join("");
+      const groups = [["Detect & Respond", "01", "Watch the network and every log line, and surface what matters."], ["Prevent", "02", "Stop phishing before a single click turns into a breach."], ["Offensive Testing", "03", "Attack your own mobile apps, APIs and code before release."]];
+      $("#suiteMap").innerHTML = groups.map(([g, n, d]) => `
+        <div class="sm-col reveal-me"><h4><i>${n}</i>${g}</h4><p>${d}</p>
+          ${apps.filter((a) => Z.cat(a.id) === g).map((a) => `<a class="sm-item" href="${Z.productUrl(a.id)}" style="--accent:${a.color}"><span class="mi-ic">${Z.icon(a.icon)}</span><span><b>${Z.esc(a.name)}</b><small>${Z.esc(a.chips.join(" · "))}</small></span>${Z.icon("i-arrow", "go")}</a>`).join("")}
+        </div>`).join("");
+      $("#stdStrip").innerHTML = SITE.standards.map(([n, d]) => `<div class="std reveal-me"><b>${Z.esc(n)}</b><small>${Z.esc(d)}</small></div>`).join("");
+      w.globe($("#globe"), { inb: $("#inb"), blk: $("#blk"), arcs: $("#arcs"), threat: $("#threat") });
+      w.ticker($("#ticker"));
+      Z.ready(() => {
+        w.typeline($("#typeline"), ["All perimeter defences are active.", "Six products online and reporting.", "Hunt. Detect. Neutralise.", "Press Ctrl K to jump anywhere."]);
+        w.counters();
+      });
+      Z.enhance();
+    })();
+  </script>
+</body>
+</html>

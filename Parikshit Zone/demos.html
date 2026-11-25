@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Demos · ZONE Security Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/apps.css" />
+  <link rel="stylesheet" href="css/demo.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/site.css" />
+  <link rel="stylesheet" href="css/bg.css" />
+</head>
+<body data-page="demos">
+  <main>
+    <div class="wrap">
+      <header class="page-head">
+        <div class="crumbs"><a href="index.html">Home</a><span>/</span>Demos</div>
+        <p class="kicker">Guided walkthroughs</p>
+        <h1>Product demos</h1>
+        <p class="lead">Every product in about 30 seconds. Each demo walks through the real workflow step by step — pause, skip or replay whenever you like.</p>
+      </header>
+
+      <section class="tour-band">
+        <div class="cta-band reveal-me">
+          <div><h3>Full suite tour</h3><p id="tourLine">All six demos back to back.</p></div>
+          <div class="cta"><button class="btn primary" id="tour"><svg><use href="#i-play"/></svg><span>Play suite tour</span></button></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="demo-grid" id="dgrid"></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="js/site.js"></script>
+  <script src="js/apps.js"></script>
+  <script src="js/snapshots.js"></script>
+  <script src="js/demo.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/bg.js"></script>
+  <script>
+    (() => {
+      const { $, esc, rand } = Z;
+      const apps = Z.apps(), D = window.ZONE_DEMOS || {};
+      const total = apps.reduce((s, a) => s + (D[a.id] || []).length, 0);
+      $("#tourLine").textContent = `All ${apps.length} demos back to back — ${total} steps, about ${Math.round((total * 6) / 60)} minutes.`;
+      $("#dgrid").innerHTML = apps.map((a) => `
+        <article class="dcard reveal-me" id="${a.id}" style="--accent:${a.color}">
+          <div class="dc-art">
+            <span class="dc-icon mi-ic">${Z.icon(a.icon)}</span>
+            ${Array.from({ length: 22 }, () => `<i style="--h:${rand(20, 85)}%"></i>`).join("")}
+            <button class="dc-play" data-demo="${a.id}" aria-label="Play ${esc(a.name)} demo">${Z.icon("i-play")}</button>
+          </div>
+          <div class="dc-body">
+            <h3>${esc(a.name)}</h3><p>${esc(a.tagline)}</p>
+            <ol class="dc-steps">${(D[a.id] || []).map((s) => `<li>${esc(s.t)}</li>`).join("")}</ol>
+            <div class="dc-meta"><span>${(D[a.id] || []).length} steps · ~${(D[a.id] || []).length * 6}s</span><a class="link-arrow" href="${Z.productUrl(a.id)}" style="font-size:12px">Product ${Z.icon("i-arrow")}</a></div>
+          </div>
+        </article>`).join("");
+
+      const tour = (i = 0) => {
+        if (i >= apps.length) return Z.toast("Suite tour complete");
+        window.openDemo(apps[i], { label: `Suite tour ${i + 1}/${apps.length}`, onEnd: () => tour(i + 1) });
+      };
+      $("#tour").onclick = () => tour(0);
+      if (location.hash) { const a = Z.app(location.hash.slice(1)); if (a) setTimeout(() => window.openDemo(a), 400); }
+      Z.enhance();
+    })();
+  </script>
+</body>
+</html>
